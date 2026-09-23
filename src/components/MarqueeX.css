@@ -41,7 +41,8 @@
   background: #241313;
 }
 
-/* Passa por cima, com sombra que a separa da faixa de trás no cruzamento */
+/* Passa por cima. A separação com a faixa de trás é feita pelo tom mais claro
+   e pelo filete dourado — sem sombra, que manchava o fundo claro abaixo do X. */
 .mqx__band--front {
   z-index: 2;
   transform: translateX(-50%) rotate(var(--v-angle));
@@ -49,7 +50,6 @@
 
 .mqx__band--front .mq {
   background: #3a1e1e;
-  box-shadow: 0 26px 54px rgba(10, 5, 5, 0.55);
 }
 
 .mqx__band .mq {
