@@ -1,0 +1,132 @@
+.ab {
+  background: var(--ivory);
+}
+
+.ab__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: clamp(40px, 6vw, 110px);
+  align-items: center;
+}
+
+.ab__text {
+  display: grid;
+  gap: clamp(20px, 2.4vw, 32px);
+  align-content: start;
+}
+
+.ab__title {
+  font-size: var(--fs-display);
+  line-height: 1.02;
+  color: var(--ink);
+  max-width: 14ch;
+}
+
+.ab__title .accent {
+  color: var(--gold-deep);
+}
+
+.ab__lead {
+  max-width: 48ch;
+}
+
+.ab__list {
+  display: grid;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.ab__list li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.ab__check {
+  display: inline-block;
+  width: 26px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.ab__foot {
+  margin-top: 12px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- Composição de imagens ---------- */
+
+.ab__media {
+  position: relative;
+  padding-bottom: 52px;
+  padding-left: 52px;
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
+}
+
+.ab__media-main {
+  position: relative;
+  z-index: 1;
+}
+
+.ab__media-secondary {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 46%;
+  box-shadow: var(--shadow-md);
+}
+
+.ab__media-secondary .media {
+  border: 8px solid var(--ivory);
+}
+
+/* A imagem menor mostra um recorte de detalhe (bancada e ferragens), e não
+   a mesma vista da imagem grande. */
+.ab__media-secondary .media img {
+  object-position: 34% 62%;
+}
+
+@media (max-width: 1020px) {
+  .ab__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+  }
+
+  .ab__title {
+    max-width: 18ch;
+  }
+
+  .ab__media {
+    transform: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .ab__media {
+    padding-left: 0;
+    padding-bottom: 0;
+  }
+
+  .ab__media-secondary {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ab__media {
+    transform: none;
+  }
+}

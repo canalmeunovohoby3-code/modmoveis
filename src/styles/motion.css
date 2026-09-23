@@ -1,0 +1,427 @@
+/* ============================================================
+   M O D — Sistema de movimento
+
+   Um único vocabulário, aplicado em todo o site:
+   - ease-out, durações curtas
+   - deslocamentos pequenos (18–30px)
+   - opacity + transform (composição na GPU)
+   - scale muito sutil
+   - stagger via --reveal-delay
+
+   Variantes de entrada:
+     up / fade / scale / left / right  → texto e blocos
+     mask                              → cortina para fotografia
+     curtain                           → cortina descendente para títulos
+
+   Proibido: bounce, elastic, spin, zoom exagerado, elementos voando.
+   ============================================================ */
+
+/* ---------- 1. Revelação ao entrar no viewport ---------- */
+
+.reveal {
+  opacity: 0;
+  transition:
+    opacity var(--dur-md) var(--ease-out),
+    transform var(--dur-md) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal[data-fx='up'] {
+  transform: translate3d(0, 28px, 0);
+}
+
+.reveal[data-fx='fade'] {
+  transform: none;
+}
+
+.reveal[data-fx='scale'] {
+  transform: scale(0.95);
+}
+
+.reveal[data-fx='left'] {
+  transform: translate3d(-28px, 0, 0);
+}
+
+.reveal[data-fx='right'] {
+  transform: translate3d(28px, 0, 0);
+}
+
+/* Máscara para fotografia: sobe como uma cortina, sem fade.
+   O estado final abre o recorte além da caixa para não cortar sombras. */
+.reveal[data-fx='mask'] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--dur-lg) var(--ease-out);
+  will-change: clip-path;
+}
+
+.reveal[data-fx='mask'].is-visible {
+  clip-path: inset(-12%);
+}
+
+/* A fotografia ainda assenta de uma escala mínima: profundidade sem exagero.
+   O alvo é o contêiner `.media`, para não brigar com o zoom de hover da imagem. */
+.reveal[data-fx='mask'] .media {
+  transform: scale(1.05);
+  transition: transform var(--dur-xl) var(--ease-out);
+  will-change: transform;
+}
+
+.reveal[data-fx='mask'].is-visible .media {
+  transform: none;
+}
+
+/* ---------- Variantes de entrada por seção ----------
+   Cada seção tem a sua assinatura de movimento, para a descida pela página
+   ter ritmos diferentes em vez de repetir o mesmo fade. */
+
+/* PROJETOS — cortina de baixo + a peça sobe e assenta, com a imagem
+   partindo de uma escala levemente maior. */
+.reveal[data-fx='mask-rise'] {
+  opacity: 1;
+  clip-path: inset(0 0 100% 0);
+  transform: translate3d(0, 36px, 0);
+  transition:
+    clip-path var(--dur-lg) var(--ease-out),
+    transform var(--dur-lg) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: clip-path, transform;
+}
+
+.reveal[data-fx='mask-rise'] .media {
+  transform: scale(1.06);
+  transition: transform var(--dur-xl) var(--ease-out);
+}
+
+.reveal[data-fx='mask-rise'].is-visible {
+  clip-path: inset(-12%);
+  transform: none;
+}
+
+.reveal[data-fx='mask-rise'].is-visible .media {
+  transform: none;
+}
+
+/* SOBRE — varredura lateral: a imagem é revelada da esquerda para a direita. */
+.reveal[data-fx='wipe'] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--dur-xl) var(--ease-arch);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: clip-path;
+}
+
+.reveal[data-fx='wipe'].is-visible {
+  clip-path: inset(0 -2% 0 0);
+}
+
+/* SERVIÇOS / DEPOIMENTOS — o bloco entra desfocado e ganha nitidez. */
+.reveal[data-fx='focus'] {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  filter: blur(9px);
+  transition:
+    opacity var(--dur-lg) var(--ease-out),
+    filter var(--dur-lg) var(--ease-out),
+    transform var(--dur-lg) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal[data-fx='focus'].is-visible {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+/* DIFERENCIAIS — cortina de cima: o bloco desce ao aparecer. */
+.reveal[data-fx='fall'] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path var(--dur-lg) var(--ease-arch);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: clip-path;
+}
+
+.reveal[data-fx='fall'].is-visible {
+  clip-path: inset(-6% 0 -2% 0);
+}
+
+/* PROCESSO — subida longa: deslocamento maior, mais lento. */
+.reveal[data-fx='rise'] {
+  opacity: 0;
+  transform: translate3d(0, 52px, 0);
+  transition:
+    opacity var(--dur-xl) var(--ease-arch),
+    transform var(--dur-xl) var(--ease-arch);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal[data-fx='rise'].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* SERVIÇOS (palco) / DEPOIMENTOS — assentamento: leve redução de escala. */
+.reveal[data-fx='settle'] {
+  opacity: 0;
+  transform: scale(0.955);
+  transition:
+    opacity var(--dur-lg) var(--ease-out),
+    transform var(--dur-xl) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal[data-fx='settle'].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* CONTATO — o mapa entra de uma escala um pouco maior. */
+.reveal[data-fx='zoom'] {
+  opacity: 0;
+  transform: scale(1.06);
+  clip-path: inset(6% 6% 6% 6%);
+  transition:
+    opacity var(--dur-lg) var(--ease-out),
+    transform var(--dur-xl) var(--ease-out),
+    clip-path var(--dur-xl) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal[data-fx='zoom'].is-visible {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0);
+}
+
+/* ---------- Revelação de título linha a linha ----------
+   Cada linha sobe dentro de uma máscara. O recorte final é folgado para não
+   cortar acentos nem descendentes. */
+
+.tr {
+  display: block;
+}
+
+/* A máscara usa clip-path (não overflow) para aceitar títulos que quebram em
+   duas linhas no mobile sem cortar a segunda linha nem o itálico. */
+.tr__line {
+  display: block;
+  /* Folga generosa em cima (acentos) e embaixo (descendentes); o texto que
+     sobe fica integralmente abaixo do recorte enquanto está escondido. */
+  clip-path: inset(-16% -10% -8% -10%);
+}
+
+.tr__inner {
+  display: block;
+  transform: translate3d(0, 116%, 0);
+  transition: transform var(--dur-lg) var(--ease-arch);
+  transition-delay: calc(var(--i, 0) * 95ms + var(--reveal-delay, 0ms));
+  will-change: transform;
+}
+
+.tr.is-visible .tr__inner {
+  transform: none;
+  will-change: auto;
+}
+
+/* Cortina descendente para títulos grandes: revela de cima para baixo,
+   com leve avanço vertical. Recorte final generoso para acentos e descendentes. */
+.reveal[data-fx='curtain'] {
+  opacity: 1;
+  clip-path: inset(0 -8% 108% -8%);
+  transform: translate3d(0, 18px, 0);
+  transition:
+    clip-path var(--dur-lg) var(--ease-out),
+    transform var(--dur-lg) var(--ease-out);
+  will-change: clip-path, transform;
+}
+
+.reveal[data-fx='curtain'].is-visible {
+  clip-path: inset(-40% -8% -40% -8%);
+  transform: none;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* ---------- 2. Sequência de entrada acima da dobra ---------- */
+
+.enter {
+  opacity: 0;
+  animation-duration: var(--dur-md);
+  animation-timing-function: var(--ease-out);
+  animation-fill-mode: both;
+  animation-delay: var(--d, 0ms);
+  will-change: opacity, transform;
+}
+
+.enter[data-fx='up'] {
+  animation-name: mod-up;
+}
+
+.enter[data-fx='fade'] {
+  animation-name: mod-fade;
+}
+
+.enter[data-fx='scale'] {
+  animation-name: mod-scale;
+}
+
+.enter[data-fx='visual'] {
+  animation-name: mod-visual;
+  animation-duration: var(--dur-xl);
+}
+
+/* Todas com "to" explícito: sem isso o navegador adota o valor da própria
+   regra como estado final e o elemento nunca apareceria. */
+
+@keyframes mod-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mod-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mod-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.965);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mod-visual {
+  from {
+    opacity: 0;
+    transform: scale(1.03) translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- 3. Parallax leve ----------
+   A distância vem do JS via --py. Sem JS, --py é 0 e nada se desloca. */
+
+.parallax {
+  transform: translate3d(0, var(--py, 0), 0);
+  will-change: transform;
+}
+
+/* ---------- 4. Microinterações ---------- */
+
+.draw-x {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-lg) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.is-visible > .draw-x,
+.draw-x.is-visible {
+  transform: scaleX(1);
+}
+
+/* ---------- 5. Preferência por menos movimento ----------
+   A preferência pede menos movimento, não ausência de resposta.
+   Deslocamentos e cortinas saem; o fade permanece. */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Antes, este modo trocava todas as assinaturas por um fade simples — o que
+     fazia a página parecer sem efeito nenhum. Agora a preferência é atendida
+     reduzindo o movimento (sem deslocamentos, sem escala, sem desfoque e mais
+     rápido), mas mantendo o tipo de revelação de cada seção: cortina, varredura
+     ou foco continuam legíveis. */
+
+  .reveal {
+    transition-duration: var(--dur-sm) !important;
+  }
+
+  .reveal[data-fx='up'] {
+    transform: translate3d(0, 8px, 0);
+  }
+
+  .reveal[data-fx='left'] {
+    transform: translate3d(-8px, 0, 0);
+  }
+
+  .reveal[data-fx='right'] {
+    transform: translate3d(8px, 0, 0);
+  }
+
+  .reveal[data-fx='scale'] {
+    transform: none;
+  }
+
+  /* Cortinas e varreduras: mantêm o recorte, sem qualquer deslocamento. */
+  .reveal[data-fx='mask-rise'],
+  .reveal[data-fx='rise'],
+  .reveal[data-fx='settle'],
+  .reveal[data-fx='zoom'],
+  .reveal[data-fx='focus'] {
+    transform: none;
+  }
+
+  .reveal[data-fx='zoom'] {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .reveal[data-fx='focus'] {
+    filter: none;
+  }
+
+  /* A fotografia não assenta por escala nesse modo. */
+  .reveal[data-fx='mask'] .media,
+  .reveal[data-fx='mask-rise'] .media {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .enter {
+    transform: none !important;
+    animation-name: mod-fade !important;
+    animation-duration: var(--dur-md) !important;
+  }
+
+  .enter[data-fx='visual'] {
+    animation-duration: var(--dur-lg) !important;
+  }
+
+  .draw-x {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .tr__inner {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .parallax {
+    transform: none !important;
+  }
+}

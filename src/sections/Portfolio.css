@@ -1,0 +1,212 @@
+.pf {
+  background: var(--ivory);
+}
+
+/* ---------- Cabeçalho ---------- */
+
+.pf__head {
+  display: grid;
+  gap: clamp(20px, 2.6vw, 34px);
+  margin-bottom: clamp(46px, 6vw, 92px);
+}
+
+.pf__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 5.6rem);
+  font-weight: 700;
+  line-height: 0.96;
+  /* Entreletra mínima: a palavra se lê como um bloco desenhado, não como
+     caixa-alta espaçada de fonte genérica. */
+  letter-spacing: 0.004em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-optical-sizing: none;
+  font-variation-settings: 'opsz' 96;
+}
+
+.pf__lead {
+  max-width: 46ch;
+}
+
+/* ---------- Galeria ---------- */
+
+.pf__gallery {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.pf__grid {
+  columns: 3;
+  column-gap: clamp(22px, 2.6vw, 46px);
+}
+
+.pf__item {
+  break-inside: avoid;
+  margin-bottom: clamp(32px, 3.6vw, 68px);
+}
+
+/* Ritmo irregular: nem todo item ocupa a mesma altura visual. */
+.pf__item:nth-child(3n) {
+  margin-bottom: clamp(50px, 5.6vw, 108px);
+}
+
+/* ---------- Moldura premium ---------- */
+
+.pf__frame {
+  position: relative;
+  display: block;
+  padding: clamp(10px, 1.1vw, 18px);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(45, 23, 23, 0.05));
+  border: 1px solid rgba(182, 146, 71, 0.42);
+  border-radius: var(--r-xs);
+  transition:
+    border-color var(--dur-md) var(--ease-out),
+    box-shadow var(--dur-md) var(--ease-out),
+    transform var(--dur-md) var(--ease-out);
+}
+
+/* Cantos discretos, como uma fotografia emoldurada */
+.pf__frame::before,
+.pf__frame::after {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  width: 18px;
+  height: 18px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.pf__frame::before {
+  top: 7px;
+  left: 7px;
+  border-top: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+}
+
+.pf__frame::after {
+  bottom: 7px;
+  right: 7px;
+  border-bottom: 1px solid var(--gold);
+  border-right: 1px solid var(--gold);
+}
+
+.pf__mat {
+  position: relative;
+  display: block;
+  border: 1px solid rgba(182, 146, 71, 0.18);
+  border-radius: var(--r-xs);
+  overflow: hidden;
+  background: var(--linen);
+}
+
+.pf__item:hover .pf__frame {
+  border-color: rgba(182, 146, 71, 0.78);
+  box-shadow: var(--shadow-sm);
+  transform: translate3d(0, -3px, 0);
+}
+
+/* O zoom acontece na mídia interna, para não brigar com a máscara de entrada. */
+.pf__mat .media__img,
+.pf__mat .media__ph {
+  transition: transform var(--dur-xl) var(--ease-out);
+}
+
+.pf__item:hover .pf__mat .media__img,
+.pf__item:hover .pf__mat .media__ph {
+  transform: scale(1.04);
+}
+
+/* ---------- Placa de identificação ---------- */
+
+.pf__plate {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 20px);
+  padding: clamp(12px, 1.2vw, 16px) 2px 2px;
+  /* A placa chega depois da imagem: primeiro o ambiente, depois a legenda. */
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity var(--dur-md) var(--ease-out) 220ms,
+    transform var(--dur-md) var(--ease-out) 220ms;
+}
+
+.pf__frame.is-visible .pf__plate {
+  opacity: 1;
+  transform: none;
+}
+
+.pf__num {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: color var(--dur-sm) var(--ease-out);
+}
+
+.pf__item:hover .pf__num {
+  color: var(--gold-deep);
+}
+
+.pf__rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(182, 146, 71, 0.55), rgba(182, 146, 71, 0));
+  /* O filete dourado se desenha depois da placa. */
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-lg) var(--ease-out) 360ms;
+}
+
+.pf__frame.is-visible .pf__rule {
+  transform: scaleX(1);
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 1180px) {
+  .pf__grid {
+    columns: 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .pf__grid {
+    columns: 1;
+  }
+
+  .pf__item,
+  .pf__item:nth-child(3n) {
+    margin-bottom: clamp(38px, 10vw, 58px);
+  }
+
+  .pf__title {
+    font-size: clamp(2rem, 11vw, 3.2rem);
+    letter-spacing: 0.04em;
+  }
+
+  .pf__frame::before,
+  .pf__frame::after {
+    width: 13px;
+    height: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf__plate {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .pf__rule {
+    transform: scaleX(1);
+    transition: none;
+  }
+}

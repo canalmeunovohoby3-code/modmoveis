@@ -1,0 +1,95 @@
+.wa {
+  position: fixed;
+  right: clamp(16px, 2.4vw, 34px);
+  bottom: calc(clamp(16px, 2.4vw, 34px) + env(safe-area-inset-bottom));
+  z-index: var(--z-float);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-sizing: border-box;
+  min-height: 58px;
+  max-width: calc(100vw - 32px);
+  padding: 0 24px 0 14px;
+  color: var(--wine-night);
+  background: var(--gold);
+  border-radius: 999px;
+  /* Sombra própria preservada durante a piscada de borda. */
+  --blink-base: 0 14px 34px rgba(20, 10, 10, 0.3);
+  box-shadow: var(--blink-base);
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-md) var(--ease-out),
+    transform var(--dur-md) var(--ease-out),
+    background-color var(--dur-sm) var(--ease-out);
+}
+
+.wa.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  animation: border-blink 2.3s var(--ease-soft) infinite;
+}
+
+.wa:hover {
+  background: var(--gold-bright);
+  transform: translate3d(0, -2px, 0);
+}
+
+.wa__icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  color: var(--gold);
+  background: var(--wine-night);
+  border-radius: 999px;
+  transition:
+    transform var(--dur-sm) var(--ease-out),
+    color var(--dur-sm) var(--ease-out);
+}
+
+.wa:hover .wa__icon {
+  transform: scale(1.12) rotate(-6deg);
+  color: var(--gold-bright);
+}
+
+/* O texto nunca quebra nem vaza: o botão cresce o quanto for preciso. */
+.wa__label {
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .wa {
+    min-height: 56px;
+    padding: 0 10px;
+  }
+
+  .wa__icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .wa__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa:hover .wa__icon {
+    transform: none;
+  }
+}

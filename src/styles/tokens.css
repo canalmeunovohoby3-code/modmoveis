@@ -1,0 +1,157 @@
+/* ============================================================
+   M O D MÓVEIS PLANEJADOS — Design tokens
+   Identidade: dourado #B69247 + vinho profundo #2D1717
+   Neutros: off-white, marfim, preto suave, cinza quente, madeira
+   ============================================================ */
+
+:root {
+  /* --- Marca (valores originais — não alterar) --- */
+  --gold: #b69247;
+  --wine: #2d1717;
+
+  /* --- Dourado derivado --- */
+  --gold-bright: #c9a75e;
+  --gold-light: #dcc79a;
+  --gold-soft: #e9dcc0;
+  --gold-tint: #f4ecdd;
+  --gold-deep: #937437;
+  --gold-night: #6d5427;
+  --gold-veil: rgba(182, 146, 71, 0.16);
+  --gold-glow: rgba(182, 146, 71, 0.34);
+
+  /* --- Vinho derivado --- */
+  --wine-deep: #1e0f0f;
+  --wine-night: #150a0a;
+  --wine-soft: #462929;
+  --wine-mute: #7a5a5a;
+  --wine-veil: rgba(45, 23, 23, 0.06);
+
+  /* --- Neutros quentes --- */
+  --white: #ffffff;
+  --ivory: #faf8f3;
+  --off-white: #f3efe6;
+  --paper: #ece6da;
+  --linen: #e4ddcf;
+  --sand: #d8cfbd;
+  --warm-gray: #c6bba8;
+  --soft-black: #1b1715;
+
+  /* --- Texto sobre claro --- */
+  --ink: #221b18;
+  --ink-soft: #524842;
+  --ink-mute: #867a70;
+
+  /* --- Texto sobre escuro --- */
+  --on-dark: #f8f4ed;
+  --on-dark-soft: rgba(248, 244, 237, 0.78);
+  --on-dark-mute: rgba(248, 244, 237, 0.56);
+
+  /* --- Linhas --- */
+  --line: rgba(45, 23, 23, 0.14);
+  --line-soft: rgba(45, 23, 23, 0.08);
+  --line-strong: rgba(45, 23, 23, 0.28);
+  --line-dark: rgba(248, 244, 237, 0.18);
+  --line-dark-soft: rgba(248, 244, 237, 0.09);
+
+  /* --- Madeira (placeholders e detalhes) --- */
+  --wood: #8a6a4f;
+  --wood-light: #b08e6d;
+  --wood-deep: #5b4433;
+
+  /* --- Tipografia ---
+     Bricolage Grotesque — sans contemporânea de desenho trabalhado: eixos de
+     peso e óptica, terminações com caráter e detalhes de entalhe. Sustenta
+     títulos grandes com presença editorial e ar de arquitetura, sem parecer
+     genérica (Arial), tecnológica ou clássica.
+     Instrument Sans — sans de apoio para corpo, interface e miúdos, com
+     itálico real usado nos acentos editoriais. */
+
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-accent: 'Instrument Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-body: 'Instrument Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --fw-display: 600;
+  --fw-body: 400;
+  --fw-medium: 500;
+  --fw-small: 500;
+
+  /* Escala generosa: títulos grandes, corpo confortável, labels legíveis. */
+  --fs-mega: clamp(3.6rem, 13vw, 12rem);
+  --fs-hero: clamp(2.9rem, 7.6vw, 7.4rem);
+  --fs-display: clamp(2.3rem, 5.2vw, 5rem);
+  --fs-h2: clamp(1.9rem, 3.6vw, 3.4rem);
+  --fs-h3: clamp(1.42rem, 2.1vw, 2rem);
+  --fs-h4: clamp(1.12rem, 1.35vw, 1.34rem);
+  --fs-quote: clamp(1.5rem, 3.1vw, 2.9rem);
+  --fs-lead: clamp(1.12rem, 1.42vw, 1.42rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.98rem;
+  --fs-label: 0.76rem;
+
+  --track-label: 0.2em;
+  --track-wide: 0.14em;
+  --track-tight: -0.02em;
+
+  --lh-tight: 1.0;
+  --lh-snug: 1.14;
+  --lh-body: 1.7;
+
+  /* --- Layout --- */
+  --container: 1320px;
+  --container-wide: 1560px;
+  --container-narrow: 820px;
+  --gutter: clamp(22px, 5vw, 74px);
+  --section-y: clamp(96px, 11vw, 200px);
+  --nav-h: 96px;
+
+  /* Composição em X: inclinação das duas faixas e profundidade do V onde o
+     hero termina. A profundidade acompanha a largura (vw) porque o envelope
+     superior das faixas vale (largura / 2) · tan(ângulo) — assim a borda do
+     hero coincide com as faixas exatamente, em qualquer tela. */
+  --v-angle: 3.9deg;
+  --v-depth: 3.4vw;
+  --band-h: clamp(54px, 5.4vw, 82px);
+
+  /* --- Raios (sóbrios, arquitetônicos) --- */
+  --r-xs: 2px;
+  --r-sm: 3px;
+  --r-md: 5px;
+  --r-lg: 8px;
+
+  /* --- Sombras discretas, em tom vinho --- */
+  --shadow-xs: 0 1px 2px rgba(30, 15, 15, 0.05);
+  --shadow-sm: 0 2px 8px rgba(30, 15, 15, 0.05), 0 18px 40px rgba(30, 15, 15, 0.07);
+  --shadow-md: 0 28px 70px rgba(30, 15, 15, 0.14);
+  --shadow-lg: 0 50px 130px rgba(20, 10, 10, 0.28);
+  --shadow-gold: 0 18px 44px rgba(182, 146, 71, 0.26);
+
+  /* --- Movimento --- */
+  --ease-out: cubic-bezier(0.16, 0.84, 0.44, 1);
+  --ease-soft: cubic-bezier(0.4, 0.14, 0.3, 1);
+  --ease-arch: cubic-bezier(0.62, 0.05, 0.24, 1);
+
+  --dur-xs: 180ms;
+  --dur-sm: 360ms;
+  --dur-md: 660ms;
+  --dur-lg: 920ms;
+  --dur-xl: 1300ms;
+
+  --z-header: 100;
+  --z-float: 120;
+  --z-overlay: 200;
+}
+
+/* Títulos grandes: peso encorpado por padrão e corte display da Bricolage
+   (opsz no máximo), que traz os detalhes de entalhe e o espaçamento justo. */
+h1,
+h2,
+.display {
+  font-weight: var(--fw-display);
+  font-optical-sizing: none;
+  font-variation-settings: 'opsz' 96;
+}
+
+h3,
+h4 {
+  font-weight: var(--fw-display);
+}

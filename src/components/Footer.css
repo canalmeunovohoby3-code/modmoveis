@@ -1,0 +1,143 @@
+.footer {
+  position: relative;
+  overflow: hidden;
+  background: var(--wine-night);
+  color: var(--on-dark);
+  border-top: 1px solid var(--line-dark-soft);
+}
+
+/* Brilho dourado muito discreto, no centro da base */
+.footer__glow {
+  position: absolute;
+  left: 50%;
+  bottom: -34%;
+  width: min(1000px, 96vw);
+  height: 460px;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(182, 146, 71, 0.13), rgba(182, 146, 71, 0));
+  pointer-events: none;
+}
+
+/* ---------- Colunas ---------- */
+
+.footer__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) repeat(3, minmax(0, 1fr));
+  gap: clamp(36px, 4.4vw, 76px);
+  padding-block: clamp(64px, 8vw, 124px) clamp(44px, 5vw, 72px);
+}
+
+.footer__brand {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  max-width: 36ch;
+}
+
+.footer__tagline {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--on-dark-soft);
+}
+
+.footer__brand-rule {
+  display: block;
+  width: clamp(56px, 7vw, 96px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), rgba(182, 146, 71, 0));
+}
+
+.footer__note {
+  font-size: 0.9rem;
+  line-height: 1.66;
+  color: var(--on-dark-mute);
+}
+
+.footer__title {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--on-dark-mute);
+  margin-bottom: 22px;
+}
+
+.footer__list {
+  display: grid;
+  gap: 11px;
+}
+
+.footer__list a,
+.footer__list span {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--on-dark-soft);
+  transition: color var(--dur-sm) var(--ease-out);
+}
+
+.footer__list a:hover {
+  color: var(--gold-light);
+}
+
+.footer__notes {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  padding-block: 26px;
+  border-top: 1px solid var(--line-dark-soft);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  color: var(--on-dark-mute);
+}
+
+/* ---------- Barra final: o site termina aqui ---------- */
+
+.footer__base {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 30px;
+  padding-block: clamp(24px, 2.8vw, 38px) calc(clamp(24px, 2.8vw, 38px) + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line-dark-soft);
+  font-size: 0.78rem;
+  letter-spacing: 0.07em;
+  color: var(--on-dark-mute);
+}
+
+.footer__sig {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 1000px) {
+  .footer__inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+    max-width: 48ch;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .footer__base {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

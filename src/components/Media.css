@@ -1,0 +1,82 @@
+.media {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--ratio, 4 / 5);
+  overflow: hidden;
+  background: var(--linen);
+  border-radius: var(--r-xs);
+}
+
+.media__picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.media__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media__ph {
+  position: absolute;
+  inset: 0;
+}
+
+.media__art {
+  width: 100%;
+  height: 100%;
+}
+
+/* Etiqueta discreta do placeholder: identifica sem poluir a arte. */
+.media__tag {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 9px;
+  background: rgba(250, 248, 243, 0.82);
+  border: 1px solid rgba(45, 23, 23, 0.12);
+  border-radius: var(--r-xs);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.media__tag-mark {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  color: var(--wine);
+}
+
+.media__tag-text {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* Sobre fundo escuro, a etiqueta continua legível */
+.is-dark .media__tag {
+  background: rgba(30, 15, 15, 0.66);
+  border-color: rgba(248, 244, 237, 0.16);
+}
+
+.is-dark .media__tag-mark {
+  color: var(--gold-light);
+}
+
+.is-dark .media__tag-text {
+  color: var(--on-dark-mute);
+}
+
+@media (max-width: 640px) {
+  .media__tag-text {
+    display: none;
+  }
+}

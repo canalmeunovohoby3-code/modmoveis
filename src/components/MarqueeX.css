@@ -1,0 +1,83 @@
+/* ============================================================
+   Faixas em X — duas diagonais que se cruzam logo abaixo do hero.
+
+   Geometria (tudo derivado de --v-angle / --v-depth / --band-h):
+   o envelope SUPERIOR das duas faixas vale  (largura/2)·tan(ângulo)  acima do
+   centro — exatamente a profundidade do V recortado no hero. Por isso a
+   borda inferior do hero coincide, pixel a pixel, com o topo das faixas:
+   o hero morre nesse V e nada dele continua atrás do X.
+   As faixas são mais largas que a tela e sangram para fora das bordas,
+   então não têm começo nem fim visíveis, e a da frente passa por cima da
+   de trás no cruzamento.
+   ============================================================ */
+
+.mqx {
+  position: relative;
+  z-index: 3;
+  /* Altura = exatamente a extensão vertical do envelope das faixas. */
+  height: calc(2 * var(--v-depth) + var(--band-h) + 2px);
+  /* Sobe para encontrar o V do hero. */
+  margin-top: calc(-1 * var(--v-depth));
+  background: transparent;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mqx__band {
+  position: absolute;
+  top: var(--v-depth);
+  left: 50%;
+  width: 150vw;
+  transform-origin: 50% 50%;
+}
+
+/* Passa por trás */
+.mqx__band--back {
+  z-index: 1;
+  transform: translateX(-50%) rotate(calc(var(--v-angle) * -1));
+}
+
+.mqx__band--back .mq {
+  background: #241313;
+}
+
+/* Passa por cima, com sombra que a separa da faixa de trás no cruzamento */
+.mqx__band--front {
+  z-index: 2;
+  transform: translateX(-50%) rotate(var(--v-angle));
+}
+
+.mqx__band--front .mq {
+  background: #3a1e1e;
+  box-shadow: 0 26px 54px rgba(10, 5, 5, 0.55);
+}
+
+.mqx__band .mq {
+  border-block-color: rgba(182, 146, 71, 0.6);
+}
+
+/* Sem máscaras laterais: as pontas ficam fora da tela (sangria nas bordas). */
+.mqx__band .mq::before,
+.mqx__band .mq::after {
+  display: none;
+}
+
+/* Altura fixa por item: é o que permite calcular a geometria acima. */
+.mqx__band .mq__item {
+  height: var(--band-h);
+  padding-block: 0;
+}
+
+@media (max-width: 700px) {
+  .mqx__band {
+    width: 190vw;
+  }
+
+  .mqx__band .mq__item {
+    font-size: clamp(0.84rem, 3.5vw, 1rem);
+  }
+
+  .mqx__band .mq--secondary .mq__item {
+    font-size: clamp(0.76rem, 3vw, 0.9rem);
+  }
+}

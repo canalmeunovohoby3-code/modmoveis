@@ -1,0 +1,36 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  transition: opacity var(--dur-sm) var(--ease-out);
+}
+
+.logo:hover {
+  opacity: 0.88;
+}
+
+/* No header: presença clara, sem dominar a barra. */
+.logo__img {
+  display: block;
+  height: clamp(46px, 3.9vw, 60px);
+  width: auto;
+}
+
+.logo--compact .logo__img {
+  height: 38px;
+}
+
+/* No rodapé: em destaque. */
+.footer .logo__img {
+  height: clamp(64px, 7vw, 104px);
+}
+
+@media (max-width: 640px) {
+  .logo__img {
+    height: 42px;
+  }
+
+  .footer .logo__img {
+    height: 68px;
+  }
+}
